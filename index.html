@@ -170,7 +170,7 @@
     thead th {
       background: #F9FAFB;
       padding: 11px 16px;
-      text-align: left;
+      text-align: center;
       font-size: 12px;
       font-weight: 600;
       color: var(--muted);
@@ -178,6 +178,10 @@
       letter-spacing: 0.06em;
       border-bottom: 1px solid var(--border);
       white-space: nowrap;
+    }
+    thead th:first-child,
+    thead th:nth-child(2) {
+      text-align: left;
     }
     tbody td {
       padding: 13px 16px;
