@@ -180,9 +180,16 @@
     tbody td {
       padding: 13px 16px;
       border-bottom: 1px solid #F3F4F6;
-      vertical-align: top;
+      vertical-align: middle;
       font-size: 14px;
       color: var(--text);
+      text-align: center;
+    }
+    tbody td:first-child {
+      text-align: left;
+    }
+    tbody td:nth-child(2) {
+      text-align: left;
     }
     tbody tr:last-child td { border-bottom: none; }
     tbody tr:hover { background: #FAFAFA; }
@@ -328,8 +335,8 @@
     }
     .moq-card .moq-price {
       margin-top: 12px;
-      font-size: 22px;
-      font-weight: 800;
+      font-size: 15px;
+      font-weight: 700;
       background: var(--grad);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
