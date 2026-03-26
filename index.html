@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CipherCommerce — 内容营销服务报价</title>
+  <style>
+    :root {
+      --orange: #F97316;
+      --purple: #8B5CF6;
+      --pink: #EC4899;
+      --teal: #14B8A6;
+      --grad: linear-gradient(135deg, #F97316 0%, #EC4899 40%, #8B5CF6 100%);
+      --bg: #F8F9FB;
+      --card: #FFFFFF;
+      --border: #E5E7EB;
+      --text: #111827;
+      --muted: #6B7280;
+      --light: #F3F4F6;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 24px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+    }
+    .header img.logo { height: 64px; object-fit: contain; }
+    .header-right {
+      text-align: right;
+    }
+    .header-right .doc-title {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+      letter-spacing: 0.03em;
+    }
+    .header-right .doc-date {
+      font-size: 12px;
+      color: #9CA3AF;
+      margin-top: 2px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--grad);
+      color: white;
+      padding: 56px 48px 48px;
+      text-align: center;
+    }
+    .hero-brand {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.75;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+    }
+    .hero p {
+      font-size: 16px;
+      opacity: 0.88;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* ── SECTION ── */
+    .section { margin-bottom: 56px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .section-num {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--grad);
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .section-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .card-header {
+      padding: 16px 20px;
+      background: var(--light);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .card-header .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .badge-tiktok { background: #000; color: #fff; }
+    .badge-ins { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); color: #fff; }
+    .badge-gmv { background: #ECFDF5; color: #059669; border: 1px solid #A7F3D0; }
+    .badge-addon { background: #EFF6FF; color: #2563EB; border: 1px solid #BFDBFE; }
+
+    .card-header-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    /* ── TABLE ── */
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    thead th {
+      background: #F9FAFB;
+      padding: 11px 16px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    tbody td {
+      padding: 13px 16px;
+      border-bottom: 1px solid #F3F4F6;
+      vertical-align: top;
+      font-size: 14px;
+      color: var(--text);
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: #FAFAFA; }
+
+    .tier-label {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .tier-ugc { background: #F3F4F6; color: #374151; }
+    .tier-koc { background: #EDE9FE; color: #6D28D9; }
+    .tier-kol { background: #FEF3C7; color: #92400E; }
+
+    .price-big {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .price-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .cpm-steps {
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--text);
+    }
+    .cpm-steps span.step-range {
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .cap-badge {
+      display: inline-block;
+      background: #FEF2F2;
+      color: #DC2626;
+      border: 1px solid #FECACA;
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* ── EXAMPLE BOX ── */
+    .example-box {
+      margin: 20px 0 0;
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      border-radius: 10px;
+      padding: 20px 24px;
+    }
+    .example-box h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #92400E;
+      margin-bottom: 12px;
+    }
+    .example-box p {
+      font-size: 13px;
+      color: #78350F;
+      margin-bottom: 12px;
+    }
+    .example-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .example-table th {
+      background: #FEF3C7;
+      padding: 8px 12px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 600;
+      color: #92400E;
+      border-bottom: 1px solid #FDE68A;
+    }
+    .example-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #FEF3C7;
+      color: #78350F;
+    }
+    .example-table tr:last-child td {
+      border-bottom: none;
+      font-weight: 700;
+      color: #92400E;
+    }
+    .example-note {
+      font-size: 12px;
+      color: #92400E;
+      margin-top: 10px;
+      font-style: italic;
+    }
+
+    /* ── GMV TABLE ── */
+    .gmv-note {
+      background: #F0FDF4;
+      border: 1px solid #BBF7D0;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-top: 16px;
+      font-size: 13px;
+      color: #166534;
+      line-height: 1.7;
+    }
+    .gmv-note strong { color: #14532D; }
+
+    /* ── MOQ CARDS ── */
+    .moq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .moq-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .moq-card .moq-icon {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    .moq-card .moq-type {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 6px;
+    }
+    .moq-card .moq-detail {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .moq-card .moq-sub {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .moq-card .moq-price {
+      margin-top: 12px;
+      font-size: 22px;
+      font-weight: 800;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── STRATEGY CARD ── */
+    .strategy-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .strategy-header {
+      background: linear-gradient(135deg, #EDE9FE, #FCE7F3);
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .strategy-header h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #4C1D95;
+    }
+    .strategy-header p {
+      font-size: 13px;
+      color: #6D28D9;
+      margin-top: 4px;
+    }
+    .strategy-body {
+      padding: 20px 24px;
+    }
+    .strategy-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 14px;
+      align-items: flex-start;
+    }
+    .strategy-row:last-child { margin-bottom: 0; }
+    .strategy-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--grad);
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+    .strategy-text {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .strategy-text strong { color: #4C1D95; }
+    .strategy-tag {
+      display: inline-block;
+      background: #F3F4F6;
+      color: var(--muted);
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    /* ── AD SERVICE ── */
+    .addon-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .addon-header {
+      background: linear-gradient(135deg, #EFF6FF, #F0F9FF);
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .addon-header h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1E40AF;
+    }
+    .addon-header p {
+      font-size: 13px;
+      color: #3B82F6;
+      margin-top: 2px;
+    }
+    .addon-body {
+      padding: 20px 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .addon-point h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .addon-point p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .addon-pricing {
+      grid-column: 1 / -1;
+      background: #EFF6FF;
+      border-radius: 8px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .addon-pricing .label {
+      font-size: 13px;
+      color: #1E40AF;
+      font-weight: 600;
+    }
+    .addon-pricing .price {
+      font-size: 18px;
+      font-weight: 800;
+      color: #1D4ED8;
+    }
+
+    /* ── UGC SAMPLES ── */
+    .ugc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .ugc-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .ugc-item img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .ugc-item-label {
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ── SETTLEMENT ── */
+    .settlement-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .settlement-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .settlement-item .s-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+    .settlement-item .s-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      padding: 24px 48px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .header { padding: 16px 20px; }
+      .hero { padding: 36px 20px 32px; }
+      .hero h1 { font-size: 24px; }
+      .container { padding: 32px 16px 60px; }
+      .moq-grid { grid-template-columns: 1fr; }
+      .addon-body { grid-template-columns: 1fr; }
+      .ugc-grid { grid-template-columns: 1fr; }
+      .settlement-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <img src="logo.png" alt="CipherCommerce" class="logo" />
+  <div class="header-right">
+    <div class="doc-title">内容营销服务报价</div>
+    <div class="doc-date">March 2026</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-brand">CipherCommerce 内容营销服务报价</div>
+  <h1>以结果计费，与品牌利益对齐</h1>
+  <p>以产品为中心的 TikTok & Instagram 达人内容营销策略执行，CPM 曝光计费 + GMV 带货分成，让每一分预算都产生可量化的回报</p>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+  <!-- ── SECTION 1: 报价 ── -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div>
+        <div class="section-title">报价</div>
+        <div class="section-subtitle">两种计费模式，覆盖曝光与带货两类目标</div>
+      </div>
+    </div>
+
+    <!-- 计费模式一 -->
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-header">
+        <span class="badge badge-tiktok">TikTok</span>
+        <span class="badge badge-ins">Instagram</span>
+        <span class="card-header-title">计费模式一：千次曝光计费（CPM）</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>层级</th>
+              <th>粉丝量</th>
+              <th>TikTok 固定费</th>
+              <th>Instagram 固定费</th>
+              <th>TikTok 千次播放阶梯</th>
+              <th>Instagram 千次播放阶梯</th>
+              <th>单条激励封顶</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="tier-label tier-ugc">素人 / UGC</span></td>
+              <td>&lt; 1w</td>
+              <td>
+                <div class="price-big">$60</div>
+                <div class="price-note">一份固定费，两平台矩阵号发布</div>
+              </td>
+              <td>
+                <div class="price-note" style="color:#9CA3AF;">共用 TikTok 固定费</div>
+              </td>
+              <td>
+                <div class="cpm-steps">
+                  <span class="step-range">0–5k：</span>$10 / 千次<br>
+                  <span class="step-range">5k–20k：</span>$8 / 千次<br>
+                  <span class="step-range">20k+：</span>$6 / 千次
+                </div>
+              </td>
+              <td>
+                <div class="cpm-steps">
+                  <span class="step-range">0–5k：</span>$14 / 千次<br>
+                  <span class="step-range">5k–20k：</span>$11 / 千次<br>
+                  <span class="step-range">20k+：</span>$8 / 千次
+                </div>
+              </td>
+              <td><span class="cap-badge">$750</span></td>
+            </tr>
+            <tr>
+              <td><span class="tier-label tier-koc">KOC</span></td>
+              <td>1w – 25w</td>
+              <td><div class="price-big">$120</div></td>
+              <td><div class="price-big">$180</div></td>
+              <td>
+                <div class="cpm-steps">
+                  <span class="step-range">0–10k：</span>$20 / 千次<br>
+                  <span class="step-range">10k–50k：</span>$18 / 千次<br>
+                  <span class="step-range">50k+：</span>$14 / 千次
+                </div>
+              </td>
+              <td>
+                <div class="cpm-steps">
+                  <span class="step-range">0–10k：</span>$25 / 千次<br>
+                  <span class="step-range">10k–50k：</span>$22 / 千次<br>
+                  <span class="step-range">50k+：</span>$17 / 千次
+                </div>
+              </td>
+              <td><span class="cap-badge">$2,000</span></td>
+            </tr>
+            <tr>
+              <td><span class="tier-label tier-koc">KOC</span></td>
+              <td>25w – 50w</td>
+              <td><div class="price-big">$180</div></td>
+              <td><div class="price-big">$240</div></td>
+              <td>
+                <div class="cpm-steps">
+                  <span class="step-range">0–10k：</span>$20 / 千次<br>
+                  <span class="step-range">10k–50k：</span>$18 / 千次<br>
+                  <span class="step-range">50k+：</span>$14 / 千次
+                </div>
+              </td>
+              <td>
+                <div class="cpm-steps">
+                  <span class="step-range">0–10k：</span>$25 / 千次<br>
+                  <span class="step-range">10k–50k：</span>$22 / 千次<br>
+                  <span class="step-range">50k+：</span>$17 / 千次
+                </div>
+              </td>
+              <td><span class="cap-badge">$2,500</span></td>
+            </tr>
+            <tr>
+              <td><span class="tier-label tier-kol">KOL</span></td>
+              <td>50w – 100w</td>
+              <td colspan="2"><div class="price-big">$1,000 – $3,000</div><div class="price-note">Flat fee，按账号历史数据定制</div></td>
+              <td colspan="2" style="text-align:center;color:var(--muted);font-size:13px;">不收取 CPM 激励</td>
+              <td style="text-align:center;color:var(--muted);">—</td>
+            </tr>
+            <tr>
+              <td><span class="tier-label tier-kol">KOL</span></td>
+              <td>100w+</td>
+              <td colspan="2"><div class="price-big">$3,000 – $10,000+</div><div class="price-note">Flat fee，按账号历史数据定制</div></td>
+              <td colspan="2" style="text-align:center;color:var(--muted);font-size:13px;">不收取 CPM 激励</td>
+              <td style="text-align:center;color:var(--muted);">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 计费示例 -->
+      <div style="padding:0 20px 20px;">
+        <div class="example-box">
+          <h4>计费示例（以 KOC · TikTok 为例）</h4>
+          <p>固定费 $120 在 KOC 确认合作时结算，播放量激励在发布后 2–4 周按实际数据结算，采用<strong>超额累进</strong>方式计算——即不同播放量区间分别按对应单价计费，最终加总。以一条视频实际播放量 <strong>80,000 次</strong>为例：</p>
+          <table class="example-table">
+            <thead>
+              <tr>
+                <th>播放量区间</th>
+                <th>计费单价</th>
+                <th>小计</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>前 10,000 次</td>
+                <td>$20 / 千次</td>
+                <td>$200</td>
+              </tr>
+              <tr>
+                <td>第 10,001–50,000 次（共 40,000 次）</td>
+                <td>$18 / 千次</td>
+                <td>$720</td>
+              </tr>
+              <tr>
+                <td>第 50,001–80,000 次（共 30,000 次）</td>
+                <td>$14 / 千次</td>
+                <td>$420</td>
+              </tr>
+              <tr>
+                <td>固定费</td>
+                <td>—</td>
+                <td>$120</td>
+              </tr>
+              <tr>
+                <td><strong>合计</strong></td>
+                <td></td>
+                <td><strong>$1,460</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="example-note">如该视频播放量继续增长，超出部分仍按 $14/千次 累进计算，直至单条总费用触达封顶上限 $2,000 为止。</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 计费模式二 -->
+    <div class="card">
+      <div class="card-header">
+        <span class="badge badge-gmv">GMV 带货</span>
+        <span class="card-header-title">计费模式二：GMV 带货计费（仅 TikTok Shop）</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>层级</th>
+              <th>粉丝量</th>
+              <th>每条固定费</th>
+              <th>管理费</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="tier-label tier-ugc">素人 / UGC</span></td>
+              <td>&lt; 1w</td>
+              <td><div class="price-note">素人全新矩阵号，不参与带货</div></td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><span class="tier-label tier-koc">KOC</span></td>
+              <td>1w – 50w</td>
+              <td><div class="price-big">$300</div></td>
+              <td><div class="price-big">GMV × 3–5%</div></td>
+            </tr>
+            <tr>
+              <td><span class="tier-label tier-kol">KOL</span></td>
+              <td>50w+</td>
+              <td><div class="price-big">定制（波动较大）</div></td>
+              <td><div class="price-big">GMV × 3–5%</div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="padding:0 20px 20px;">
+        <div class="gmv-note">
+          <strong>管理费说明：</strong>针对不同产品的达人营销，CipherCommerce 会对 TikTok 上的竞品进行扫描，给出建议佣金水平。例如竞品平均给达人分配 21%，CipherCommerce 会按照 15–18% 的佣金范围联系达人，并最终确认一个佣金水平，建议品牌在 TikTok 后台设置定向达人合作活动的佣金值，并指导达人直接参与接受。<strong>CipherCommerce 最终收取该活动全部成交额的 3–5% 作为管理费。</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 2: 最小订单量 ── -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div>
+        <div class="section-title">最小订单量</div>
+        <div class="section-subtitle">保证执行质量的最低 Campaign 规模</div>
+      </div>
+    </div>
+    <div class="moq-grid">
+      <div class="moq-card">
+        <div class="moq-icon">👤</div>
+        <div class="moq-type">素人内容营销</div>
+        <div class="moq-detail">200 条视频起</div>
+        <div class="moq-sub">约 20 位素人，每人 10 条视频</div>
+        <div class="moq-price">最低固定费 $10,000</div>
+      </div>
+      <div class="moq-card">
+        <div class="moq-icon">⭐</div>
+        <div class="moq-type">达人内容营销（KOC / KOL）</div>
+        <div class="moq-detail">50 位达人起</div>
+        <div class="moq-sub">可混合 TikTok 与 Instagram 达人</div>
+        <div class="moq-price">最低固定费 $6,000</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 3: 独立站引导策略 ── -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div>
+        <div class="section-title">独立站引导策略</div>
+        <div class="section-subtitle">适用于有复购属性或 TikTok Shop 佣金成本过高的品牌</div>
+      </div>
+    </div>
+    <div class="strategy-card">
+      <div class="strategy-header">
+        <h3>TikTok Shop 高价 SKU + 独立站折扣码引流</h3>
+        <p>将内容流量引导至独立站成交，降低达人佣金成本，沉淀用户数据与复购价值</p>
+      </div>
+      <div class="strategy-body">
+        <div class="strategy-row">
+          <div class="strategy-dot"></div>
+          <div class="strategy-text">
+            <strong>TikTok Shop 挂高价 SKU</strong>（高于独立站售价），视频内容引导用户通过专属折扣码或 bio 链接前往独立站成交。带货效果通过专属折扣码或 UTM 链接追踪，不走 TikTok Shop 结算，减少达人佣金对出单 ROI 的影响。
+          </div>
+        </div>
+        <div class="strategy-row">
+          <div class="strategy-dot"></div>
+          <div class="strategy-text">
+            <strong>Instagram 天然无法带货</strong>，同样采用专属链接的方式追踪视频转化效果，计费仍按千次播放结算。
+          </div>
+        </div>
+        <div class="strategy-row">
+          <div class="strategy-dot"></div>
+          <div class="strategy-text">
+            <strong>适用场景：</strong>品牌有独立站、产品有复购属性、或 TikTok Shop 竞品达人佣金成本水平过高。
+            <br><span class="strategy-tag">计费方式：此场景下仍按千次播放计费，独立站 GMV 数据作为效果参考，不作为主要结算依据</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 4: 广告投放增效 ── -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div>
+        <div class="section-title">独立站广告投放增效</div>
+        <div class="section-subtitle">额外服务 · Add-on</div>
+      </div>
+    </div>
+    <div class="addon-card">
+      <div class="addon-header">
+        <div>
+          <h3>达人素材 × 付费广告，最大化内容资产 ROI</h3>
+          <p>在内容营销 Campaign 基础上，额外承接独立站付费广告投放管理</p>
+        </div>
+      </div>
+      <div class="addon-body">
+        <div class="addon-point">
+          <h4>为什么达人素材适合投广告？</h4>
+          <p>真实的用户视角、场景化的内容表达，往往比品牌自制素材有更高的点击率和转化率，天然契合 Meta / Google Ads 的算法偏好。</p>
+        </div>
+        <div class="addon-point">
+          <h4>我们做什么？</h4>
+          <p>选素材、建受众、跑测试、优化出价。在已有优质素材的基础上，广告投放本质上是一个执行动作，无需重新建立创意体系。</p>
+        </div>
+        <div class="addon-pricing">
+          <div class="label">广告投放管理费（Meta / Google Ads）</div>
+          <div class="price">Ad Spend × 5–10%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 5: 素人数据参考 ── -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div>
+        <div class="section-title">素人账号数据参考</div>
+        <div class="section-subtitle">真实合作账号样本，展示内容调性与播放量分布</div>
+      </div>
+    </div>
+    <div class="ugc-grid">
+      <div class="ugc-item">
+        <img src="ugc_sample-000.png" alt="TikTok 素人账号样本" />
+        <div class="ugc-item-label">
+          <span class="badge badge-tiktok" style="font-size:11px;">TikTok</span>
+          素人账号内容样本
+        </div>
+      </div>
+      <div class="ugc-item">
+        <img src="ugc_sample-001.png" alt="Instagram 素人账号样本" />
+        <div class="ugc-item-label">
+          <span class="badge badge-ins" style="font-size:11px;">Instagram</span>
+          素人账号内容样本
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 结算说明 ── -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num" style="background:linear-gradient(135deg,#14B8A6,#3B82F6);">✓</div>
+      <div>
+        <div class="section-title">结算节点</div>
+        <div class="section-subtitle">透明清晰的付款时间线</div>
+      </div>
+    </div>
+    <div class="settlement-grid">
+      <div class="settlement-item">
+        <div class="s-label">固定费（Base）</div>
+        <div class="s-value">Campaign 启动时预付<br><span style="color:var(--muted);font-size:13px;">达人确认合作即结算</span></div>
+      </div>
+      <div class="settlement-item">
+        <div class="s-label">CPM 激励部分</div>
+        <div class="s-value">视频发布后 2–4 周<br><span style="color:var(--muted);font-size:13px;">按实际播放量超额累进结算</span></div>
+      </div>
+      <div class="settlement-item">
+        <div class="s-label">GMV 管理费</div>
+        <div class="s-value">按双周结算<br><span style="color:var(--muted);font-size:13px;">依据实际 TikTok Shop 销售数据</span></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  © 2026 CipherCommerce · 内容营销服务报价 · 如有疑问请联系我们
+</div>
+
+</body>
+</html>
