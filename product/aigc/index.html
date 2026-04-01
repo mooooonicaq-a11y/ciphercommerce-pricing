@@ -77,19 +77,9 @@
       font-size: clamp(15px, 2vw, 18px);
       opacity: 0.88;
       max-width: 620px;
-      margin: 0 auto 36px;
+      margin: 0 auto;
       line-height: 1.7;
     }
-    .hero-stats {
-      display: flex;
-      justify-content: center;
-      gap: 48px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
-    .hero-stat { text-align: center; }
-    .hero-stat .num { font-size: 32px; font-weight: 800; line-height: 1; }
-    .hero-stat .label { font-size: 12px; opacity: 0.75; margin-top: 4px; letter-spacing: 0.04em; }
 
     /* ── SECTION WRAPPER ── */
     .section {
@@ -97,11 +87,16 @@
       margin: 0 auto;
       padding: 72px 24px;
     }
+    /* 紧凑间距用于定价和ROI区块 */
+    .section.compact {
+      padding-top: 48px;
+      padding-bottom: 48px;
+    }
     .section-header {
       display: flex;
       align-items: center;
       gap: 16px;
-      margin-bottom: 48px;
+      margin-bottom: 36px;
     }
     .section-num {
       width: 36px; height: 36px;
@@ -115,7 +110,16 @@
     .section-sub { font-size: 14px; color: var(--muted); margin-top: 2px; }
 
     /* ── CONTENT TYPES ── */
-    .content-types { display: flex; flex-direction: column; gap: 56px; }
+    /* 脚本 + 抽象并列两列，Reaction 独占一行 */
+    .content-top-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+    @media (max-width: 768px) {
+      .content-top-row { grid-template-columns: 1fr; }
+    }
 
     .type-block {}
     .type-label {
@@ -134,17 +138,16 @@
     .type-label.reaction { background: #FDF2F8; color: #BE185D; border: 1px solid #FBCFE8; }
 
     .type-desc {
-      font-size: 15px;
+      font-size: 14px;
       color: var(--muted);
-      margin-bottom: 20px;
-      max-width: 680px;
+      margin-bottom: 16px;
       line-height: 1.7;
     }
     .type-tags {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
     .tag {
       background: var(--light);
@@ -157,8 +160,12 @@
 
     .video-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 14px;
+    }
+    /* Reaction 区块视频更多，允许更小的最小宽度 */
+    .video-grid.reaction-grid {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     }
     .video-card {
       background: var(--card);
@@ -220,35 +227,20 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 32px;
+      padding: 28px;
       position: relative;
       overflow: hidden;
     }
-    .pricing-card.featured {
-      border-color: var(--purple);
-      box-shadow: 0 0 0 1px var(--purple), 0 8px 32px rgba(139,92,246,0.12);
-    }
-    .pricing-card .badge {
-      position: absolute;
-      top: 20px; right: 20px;
-      background: var(--grad);
-      color: white;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px 12px;
-      border-radius: 100px;
-      letter-spacing: 0.04em;
-    }
     .pricing-card .mode { font-size: 13px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
     .pricing-card .price-big { font-size: 42px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
-    .pricing-card .price-unit { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
+    .pricing-card .price-unit { font-size: 14px; color: var(--muted); margin-bottom: 16px; }
     .pricing-card .moq-line {
       display: flex;
       align-items: center;
       gap: 8px;
       font-size: 14px;
       color: var(--muted);
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
     .moq-badge {
       background: var(--light);
@@ -284,42 +276,42 @@
       overflow: hidden;
     }
     .roi-intro {
-      padding: 36px 40px 28px;
+      padding: 28px 36px 22px;
       border-bottom: 1px solid var(--border);
     }
-    .roi-intro h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .roi-intro h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
     .roi-intro p { font-size: 14px; color: var(--muted); line-height: 1.75; }
 
     .roi-calc {
-      padding: 32px 40px;
+      padding: 24px 36px;
     }
     .roi-assumption {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-      gap: 16px;
-      margin-bottom: 32px;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
     }
     .assumption-item {
       background: var(--light);
-      border-radius: 12px;
-      padding: 16px;
+      border-radius: 10px;
+      padding: 10px 14px;
     }
-    .assumption-item .a-label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
-    .assumption-item .a-value { font-size: 20px; font-weight: 800; }
+    .assumption-item .a-label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
+    .assumption-item .a-value { font-size: 17px; font-weight: 800; }
 
     .roi-flow {
       display: flex;
       align-items: stretch;
       gap: 0;
       flex-wrap: wrap;
-      margin-bottom: 28px;
+      margin-bottom: 20px;
     }
     .flow-step {
       flex: 1;
-      min-width: 140px;
+      min-width: 130px;
       background: var(--light);
-      border-radius: 12px;
-      padding: 18px 16px;
+      border-radius: 10px;
+      padding: 12px 14px;
       text-align: center;
       position: relative;
     }
@@ -332,22 +324,22 @@
       font-size: 18px;
       color: var(--muted);
     }
-    .flow-step .f-label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
-    .flow-step .f-value { font-size: 18px; font-weight: 800; line-height: 1.2; }
-    .flow-step .f-note { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .flow-step .f-label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+    .flow-step .f-value { font-size: 17px; font-weight: 800; line-height: 1.2; }
+    .flow-step .f-note { font-size: 11px; color: var(--muted); margin-top: 3px; }
     .flow-step.highlight { background: linear-gradient(135deg, #FFF7ED, #FDF2F8); border: 1px solid #FED7AA; }
     .flow-step.highlight .f-value { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
     .roi-result {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 14px;
     }
     @media (max-width: 600px) { .roi-result { grid-template-columns: 1fr; } }
 
     .result-card {
-      border-radius: 16px;
-      padding: 24px;
+      border-radius: 14px;
+      padding: 20px;
       text-align: center;
     }
     .result-card.organic {
@@ -358,13 +350,26 @@
       background: var(--grad);
       color: white;
     }
-    .result-card .r-label { font-size: 12px; font-weight: 600; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
-    .result-card .r-roi { font-size: 40px; font-weight: 900; line-height: 1; margin-bottom: 4px; }
-    .result-card .r-gmv { font-size: 14px; opacity: 0.8; }
+    .result-card .r-label { font-size: 12px; font-weight: 600; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+    .result-card .r-roi { font-size: 36px; font-weight: 900; line-height: 1; margin-bottom: 4px; }
+    .result-card .r-gmv { font-size: 13px; opacity: 0.8; }
     .result-card.organic .r-roi { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
+    /* Amazon spillover box */
+    .amazon-box {
+      margin-top: 14px;
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-size: 13px;
+      color: #92400E;
+      line-height: 1.7;
+    }
+    .amazon-box strong { color: #78350F; }
+
     .roi-footnote {
-      padding: 20px 40px 28px;
+      padding: 16px 36px 22px;
       font-size: 13px;
       color: var(--muted);
       border-top: 1px solid var(--border);
@@ -384,7 +389,7 @@
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 32px;
+      padding: 28px;
       position: relative;
       overflow: hidden;
     }
@@ -401,7 +406,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
     .ad-icon {
       width: 40px; height: 40px;
@@ -421,7 +426,7 @@
       padding: 6px 14px;
       font-size: 14px;
       font-weight: 700;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
     .ad-price-tag.free { background: #ECFDF5; color: #065F46; }
     .ad-price-tag.paid { background: #F5F3FF; color: #5B21B6; }
@@ -446,7 +451,7 @@
     .ad-disclaimer {
       background: var(--light);
       border-radius: 14px;
-      padding: 20px 24px;
+      padding: 18px 22px;
       font-size: 13px;
       color: var(--muted);
       line-height: 1.75;
@@ -494,7 +499,8 @@
     @media (max-width: 768px) {
       .header { padding: 16px 20px; }
       .section { padding: 48px 16px; }
-      .roi-intro, .roi-calc, .roi-footnote { padding-left: 20px; padding-right: 20px; }
+      .section.compact { padding: 32px 16px; }
+      .roi-intro, .roi-calc, .roi-footnote { padding-left: 16px; padding-right: 16px; }
       .roi-flow { gap: 8px; }
       .flow-step + .flow-step::before { display: none; }
     }
@@ -515,25 +521,7 @@
 <section class="hero">
   <div class="hero-badge">AI-Generated Content</div>
   <h1>无需真人达人<br>批量产出高转化短视频</h1>
-  <p>为亚马逊品牌定制 AIGC 内容矩阵，覆盖创意脚本、成分可视化、真人 Reaction 三大场景，7 天内交付，成本降低 70%+</p>
-  <div class="hero-stats">
-    <div class="hero-stat">
-      <div class="num">50条</div>
-      <div class="label">最低起订量</div>
-    </div>
-    <div class="hero-stat">
-      <div class="num">$50</div>
-      <div class="label">每条起</div>
-    </div>
-    <div class="hero-stat">
-      <div class="num">3–4×</div>
-      <div class="label">优秀视频 ROI</div>
-    </div>
-    <div class="hero-stat">
-      <div class="num">7天</div>
-      <div class="label">交付周期</div>
-    </div>
-  </div>
+  <p>为出海品牌定制 AIGC 内容矩阵，覆盖创意脚本、成分可视化、真人 Reaction 三大场景，成本降低 70%+</p>
 </section>
 
 <!-- SECTION 1: 三类内容 -->
@@ -546,7 +534,8 @@
     </div>
   </div>
 
-  <div class="content-types">
+  <!-- 脚本 + 抽象并列 -->
+  <div class="content-top-row">
 
     <!-- TYPE 1: Scripted Creative -->
     <div class="type-block">
@@ -556,19 +545,18 @@
       </div>
       <div class="type-tags">
         <span class="tag">剧情 Hook</span>
-        <span class="tag">产品拟人动画</span>
         <span class="tag">场景化种草</span>
-        <span class="tag">适合 supplement / lifestyle / food</span>
+        <span class="tag">supplement / lifestyle / food</span>
       </div>
       <div class="video-grid">
         <div class="video-card">
-          <video src="videos/06d56d274dbddcfb45683e8d63243ee6.mp4" playsinline preload="metadata" poster=""></video>
+          <video src="videos/06d56d274dbddcfb45683e8d63243ee6.mp4" playsinline preload="metadata"></video>
           <div class="video-overlay" onclick="toggleVideo(this)">
             <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
           </div>
         </div>
         <div class="video-card">
-          <video src="videos/dc1e456d1ee06f1acf0ffc239cfc1713.mp4" playsinline preload="metadata" poster=""></video>
+          <video src="videos/c115205ece454fd7c80da23f061f50d9.mp4" playsinline preload="metadata"></video>
           <div class="video-overlay" onclick="toggleVideo(this)">
             <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
           </div>
@@ -584,59 +572,18 @@
       </div>
       <div class="type-tags">
         <span class="tag">成分可视化</span>
-        <span class="tag">健康原理讲解</span>
         <span class="tag">抽象 Avatar</span>
-        <span class="tag">适合 skincare / health / nootropics</span>
+        <span class="tag">skincare / health / nootropics</span>
       </div>
       <div class="video-grid">
         <div class="video-card">
-          <video src="videos/c115205ece454fd7c80da23f061f50d9.mp4" playsinline preload="metadata" poster=""></video>
+          <video src="videos/dc1e456d1ee06f1acf0ffc239cfc1713.mp4" playsinline preload="metadata"></video>
           <div class="video-overlay" onclick="toggleVideo(this)">
             <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
           </div>
         </div>
         <div class="video-card">
-          <video src="videos/a4223efe6ec2eaa0aea7e6c504701583.mp4" playsinline preload="metadata" poster=""></video>
-          <div class="video-overlay" onclick="toggleVideo(this)">
-            <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TYPE 3: AI Reaction -->
-    <div class="type-block">
-      <div class="type-label reaction">🙋 真人 AI Reaction</div>
-      <div class="type-desc">
-        AI 生成真实使用场景，真人风格 Reaction，完全无需真实达人档期。批量生成不同人设、不同场景、不同 Hook，持续测试最优素材。
-      </div>
-      <div class="type-tags">
-        <span class="tag">UGC 风格</span>
-        <span class="tag">多人设批量生成</span>
-        <span class="tag">使用场景还原</span>
-        <span class="tag">适合全品类</span>
-      </div>
-      <div class="video-grid">
-        <div class="video-card">
-          <video src="videos/bdb96dd3203602d19864a301cb850013.mp4" playsinline preload="metadata" poster=""></video>
-          <div class="video-overlay" onclick="toggleVideo(this)">
-            <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-          </div>
-        </div>
-        <div class="video-card">
-          <video src="videos/ceb31af64d37c3b274543decb44cd57e.mp4" playsinline preload="metadata" poster=""></video>
-          <div class="video-overlay" onclick="toggleVideo(this)">
-            <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-          </div>
-        </div>
-        <div class="video-card">
-          <video src="videos/5340c6fe55613104d16b63774d4f35b4.mp4" playsinline preload="metadata" poster=""></video>
-          <div class="video-overlay" onclick="toggleVideo(this)">
-            <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
-          </div>
-        </div>
-        <div class="video-card">
-          <video src="videos/e0319ff3e54e1c7bf7c8f6a15331fec1.mp4" playsinline preload="metadata" poster=""></video>
+          <video src="videos/a4223efe6ec2eaa0aea7e6c504701583.mp4" playsinline preload="metadata"></video>
           <div class="video-overlay" onclick="toggleVideo(this)">
             <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
           </div>
@@ -645,17 +592,58 @@
     </div>
 
   </div>
+
+  <!-- TYPE 3: AI Reaction（独占一行） -->
+  <div class="type-block">
+    <div class="type-label reaction">🙋 真人 AI Reaction</div>
+    <div class="type-desc">
+      AI 生成真实使用场景，真人风格 Reaction，完全无需真实达人档期。批量生成不同人设、不同场景、不同 Hook，持续测试最优素材。
+    </div>
+    <div class="type-tags">
+      <span class="tag">UGC 风格</span>
+      <span class="tag">多人设批量生成</span>
+      <span class="tag">使用场景还原</span>
+      <span class="tag">适合全品类</span>
+    </div>
+    <div class="video-grid reaction-grid">
+      <div class="video-card">
+        <video src="videos/bdb96dd3203602d19864a301cb850013.mp4" playsinline preload="metadata"></video>
+        <div class="video-overlay" onclick="toggleVideo(this)">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+      </div>
+      <div class="video-card">
+        <video src="videos/ceb31af64d37c3b274543decb44cd57e.mp4" playsinline preload="metadata"></video>
+        <div class="video-overlay" onclick="toggleVideo(this)">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+      </div>
+      <div class="video-card">
+        <video src="videos/5340c6fe55613104d16b63774d4f35b4.mp4" playsinline preload="metadata"></video>
+        <div class="video-overlay" onclick="toggleVideo(this)">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+      </div>
+      <div class="video-card">
+        <video src="videos/e0319ff3e54e1c7bf7c8f6a15331fec1.mp4" playsinline preload="metadata"></video>
+        <div class="video-overlay" onclick="toggleVideo(this)">
+          <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <hr class="section-divider" />
 
 <!-- SECTION 2: 定价 -->
-<div class="section">
+<div class="section compact">
   <div class="section-header">
     <div class="section-num">2</div>
     <div>
       <div class="section-title">两种计价方式</div>
-      <div class="section-sub">按内容目标灵活选择，测试阶段或规模投放均有对应方案</div>
+      <div class="section-sub">按内容目标灵活选择，两种方案均无附加条件</div>
     </div>
   </div>
 
@@ -671,11 +659,9 @@
         <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>预算可控，适合测试阶段</li>
         <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>固定成本，ROI 易于计算</li>
         <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>可混合三种内容类型</li>
-        <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>7 天内交付</li>
       </ul>
     </div>
-    <div class="pricing-card featured">
-      <div class="badge">规模投放推荐</div>
+    <div class="pricing-card">
       <div class="mode">按 CPM 计费</div>
       <div class="price-big">$7</div>
       <div class="price-unit">每千次播放</div>
@@ -686,7 +672,6 @@
         <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>按实际曝光付费，风险更低</li>
         <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>爆款视频成本摊薄效果显著</li>
         <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>适合追求规模曝光的品牌</li>
-        <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>与广告投放组合效果最优</li>
       </ul>
     </div>
   </div>
@@ -695,7 +680,7 @@
 <hr class="section-divider" />
 
 <!-- SECTION 3: ROI 计算 -->
-<div class="section">
+<div class="section compact">
   <div class="section-header">
     <div class="section-num">3</div>
     <div>
@@ -709,7 +694,7 @@
       <h3>行业基准数据（TikTok 美区自然流）</h3>
       <p>
         根据对 TikTok 美区竞品自然流出单数据的观察：一个 $20–30 的产品，一条<strong>优秀脚本视频</strong>通常 <strong>1,000–2,000 次播放出一单</strong>。
-        优秀视频的自然流 ROI 约 <strong>3–4×</strong>，叠加广告投放后可进一步放大，整体广告账户 ROI 可以打正。
+        AIGC 视频素材本身即可实现 ROI 打正，叠加广告投放后 ROI 可超过 3×。
       </p>
     </div>
 
@@ -772,9 +757,13 @@
         </div>
         <div class="result-card with-ads">
           <div class="r-label">叠加广告投放</div>
-          <div class="r-roi">3–4×</div>
-          <div class="r-gmv">GMV ≈ $7,500–$10,000</div>
+          <div class="r-roi">3×+</div>
+          <div class="r-gmv">GMV ≈ $7,500+</div>
         </div>
+      </div>
+
+      <div class="amazon-box">
+        💡 <strong>额外溢出效应：</strong>假设内容成本 $2,500，投入 2× 广告 spending（$5,000），约 <strong>10% 的 TikTok 流量会溢出至亚马逊搜索</strong>，品牌可免费获得额外的亚马逊自然流量，进一步摊薄整体获客成本。
       </div>
     </div>
 
@@ -787,7 +776,7 @@
 <hr class="section-divider" />
 
 <!-- SECTION 4: 广告增效 -->
-<div class="section">
+<div class="section compact">
   <div class="section-header">
     <div class="section-num">4</div>
     <div>
@@ -810,7 +799,7 @@
       <ul class="ad-points">
         <li><span class="dot"></span>不是简单跑 GMV Max——品牌自投 GMV Max 的 ROI 通常低于专业操盘</li>
         <li><span class="dot"></span>核心在于 hack TikTok 广告更新后的算法黑箱：设置对比 Campaign 组，通过动态调整 Budget 与 ROI 目标，系统性推高整体广告 ROI</li>
-        <li><span class="dot"></span>优质 AIGC 素材 × 精准投放策略 = 广告账户 ROI 可打正</li>
+        <li><span class="dot"></span>优质 AIGC 素材 × 精准投放策略 = 保证优秀 ROI 实现</li>
       </ul>
     </div>
 
@@ -863,7 +852,6 @@
   function toggleVideo(overlay) {
     const card = overlay.parentElement;
     const video = card.querySelector('video');
-    // Pause all other videos
     document.querySelectorAll('video').forEach(v => {
       if (v !== video) {
         v.pause();
@@ -880,7 +868,6 @@
     }
   }
 
-  // Re-show overlay when video ends
   document.querySelectorAll('video').forEach(video => {
     video.addEventListener('ended', () => {
       const overlay = video.parentElement.querySelector('.video-overlay');
