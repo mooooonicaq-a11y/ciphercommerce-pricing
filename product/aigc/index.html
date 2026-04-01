@@ -87,10 +87,9 @@
       margin: 0 auto;
       padding: 72px 24px;
     }
-    /* 紧凑间距用于定价和ROI区块 */
     .section.compact {
-      padding-top: 48px;
-      padding-bottom: 48px;
+      padding-top: 36px;
+      padding-bottom: 36px;
     }
     .section-header {
       display: flex;
@@ -110,7 +109,6 @@
     .section-sub { font-size: 14px; color: var(--muted); margin-top: 2px; }
 
     /* ── CONTENT TYPES ── */
-    /* 脚本 + 抽象并列两列，Reaction 独占一行 */
     .content-top-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -121,7 +119,6 @@
       .content-top-row { grid-template-columns: 1fr; }
     }
 
-    .type-block {}
     .type-label {
       display: inline-flex;
       align-items: center;
@@ -158,15 +155,23 @@
       font-weight: 500;
     }
 
+    /* ── VIDEO GRID ── */
+    /* 上方两类各 2 个视频，用 2 列 */
     .video-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      grid-template-columns: repeat(2, 1fr);
       gap: 14px;
     }
-    /* Reaction 区块视频更多，允许更小的最小宽度 */
+    /* Reaction 区块 4 个视频，用 4 列，与上方整体宽度对齐 */
     .video-grid.reaction-grid {
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
     }
+    @media (max-width: 640px) {
+      .video-grid { grid-template-columns: repeat(2, 1fr); }
+      .video-grid.reaction-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* FIX 1: 点击事件绑定在 .video-card 上，video 和 overlay 不拦截点击 */
     .video-card {
       background: var(--card);
       border-radius: 16px;
@@ -175,6 +180,7 @@
       box-shadow: 0 2px 12px rgba(0,0,0,0.06);
       transition: transform 0.2s, box-shadow 0.2s;
       position: relative;
+      cursor: pointer;
     }
     .video-card:hover {
       transform: translateY(-3px);
@@ -186,7 +192,7 @@
       object-fit: cover;
       display: block;
       background: #000;
-      cursor: pointer;
+      pointer-events: none; /* 让点击冒泡到 .video-card */
     }
     .video-overlay {
       position: absolute;
@@ -196,7 +202,7 @@
       justify-content: center;
       background: rgba(0,0,0,0.15);
       transition: opacity 0.2s;
-      pointer-events: none;
+      pointer-events: none; /* 让点击冒泡到 .video-card */
     }
     .video-overlay.hidden { opacity: 0; }
     .play-btn {
@@ -228,19 +234,48 @@
       border: 1px solid var(--border);
       border-radius: 20px;
       padding: 28px;
-      position: relative;
-      overflow: hidden;
     }
-    .pricing-card .mode { font-size: 13px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+
+    /* FIX 2: 定价卡片内部左右两列布局 */
+    .pricing-inner {
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      gap: 0;
+    }
+    .pricing-left {
+      flex: 0 0 auto;
+      min-width: 120px;
+      padding-right: 20px;
+    }
+    .pricing-divider {
+      width: 1px;
+      background: var(--border);
+      align-self: stretch;
+      flex-shrink: 0;
+    }
+    .pricing-right {
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      padding-left: 20px;
+    }
+    @media (max-width: 520px) {
+      .pricing-inner { flex-direction: column; }
+      .pricing-left { padding-right: 0; padding-bottom: 16px; }
+      .pricing-divider { width: 100%; height: 1px; }
+      .pricing-right { padding-left: 0; padding-top: 16px; }
+    }
+
+    .pricing-card .mode { font-size: 13px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
     .pricing-card .price-big { font-size: 42px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
-    .pricing-card .price-unit { font-size: 14px; color: var(--muted); margin-bottom: 16px; }
+    .pricing-card .price-unit { font-size: 14px; color: var(--muted); margin-bottom: 12px; }
     .pricing-card .moq-line {
       display: flex;
       align-items: center;
       gap: 8px;
       font-size: 14px;
       color: var(--muted);
-      margin-bottom: 20px;
     }
     .moq-badge {
       background: var(--light);
@@ -250,7 +285,7 @@
       font-weight: 600;
       color: var(--text);
     }
-    .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 10px; width: 100%; }
     .pricing-features li {
       display: flex;
       align-items: flex-start;
@@ -282,9 +317,8 @@
     .roi-intro h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
     .roi-intro p { font-size: 14px; color: var(--muted); line-height: 1.75; }
 
-    .roi-calc {
-      padding: 24px 36px;
-    }
+    .roi-calc { padding: 24px 36px; }
+
     .roi-assumption {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -355,7 +389,6 @@
     .result-card .r-gmv { font-size: 13px; opacity: 0.8; }
     .result-card.organic .r-roi { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-    /* Amazon spillover box */
     .amazon-box {
       margin-top: 14px;
       background: #FFFBEB;
@@ -364,7 +397,7 @@
       padding: 14px 18px;
       font-size: 13px;
       color: #92400E;
-      line-height: 1.7;
+      line-height: 1.8;
     }
     .amazon-box strong { color: #78350F; }
 
@@ -466,7 +499,13 @@
       padding: 72px 24px;
     }
     .cta-section h2 { font-size: clamp(22px, 4vw, 36px); font-weight: 800; margin-bottom: 12px; }
-    .cta-section p { font-size: 16px; opacity: 0.85; margin-bottom: 40px; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .cta-section p {
+      font-size: 16px;
+      opacity: 0.85;
+      margin-bottom: 40px;
+      white-space: nowrap;
+    }
+    @media (max-width: 600px) { .cta-section p { white-space: normal; } }
     .cta-cards {
       display: flex;
       justify-content: center;
@@ -499,7 +538,7 @@
     @media (max-width: 768px) {
       .header { padding: 16px 20px; }
       .section { padding: 48px 16px; }
-      .section.compact { padding: 32px 16px; }
+      .section.compact { padding: 28px 16px; }
       .roi-intro, .roi-calc, .roi-footnote { padding-left: 16px; padding-right: 16px; }
       .roi-flow { gap: 8px; }
       .flow-step + .flow-step::before { display: none; }
@@ -534,7 +573,7 @@
     </div>
   </div>
 
-  <!-- 脚本 + 抽象并列 -->
+  <!-- 脚本 + 抽象并列，各 2 个视频 -->
   <div class="content-top-row">
 
     <!-- TYPE 1: Scripted Creative -->
@@ -551,13 +590,13 @@
       <div class="video-grid">
         <div class="video-card">
           <video src="videos/06d56d274dbddcfb45683e8d63243ee6.mp4" playsinline preload="metadata"></video>
-          <div class="video-overlay" onclick="toggleVideo(this)">
+          <div class="video-overlay">
             <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
           </div>
         </div>
         <div class="video-card">
           <video src="videos/c115205ece454fd7c80da23f061f50d9.mp4" playsinline preload="metadata"></video>
-          <div class="video-overlay" onclick="toggleVideo(this)">
+          <div class="video-overlay">
             <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
           </div>
         </div>
@@ -578,13 +617,13 @@
       <div class="video-grid">
         <div class="video-card">
           <video src="videos/dc1e456d1ee06f1acf0ffc239cfc1713.mp4" playsinline preload="metadata"></video>
-          <div class="video-overlay" onclick="toggleVideo(this)">
+          <div class="video-overlay">
             <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
           </div>
         </div>
         <div class="video-card">
           <video src="videos/a4223efe6ec2eaa0aea7e6c504701583.mp4" playsinline preload="metadata"></video>
-          <div class="video-overlay" onclick="toggleVideo(this)">
+          <div class="video-overlay">
             <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
           </div>
         </div>
@@ -593,7 +632,7 @@
 
   </div>
 
-  <!-- TYPE 3: AI Reaction（独占一行） -->
+  <!-- TYPE 3: AI Reaction（独占一行，4 列与上方整体对齐） -->
   <div class="type-block">
     <div class="type-label reaction">🙋 真人 AI Reaction</div>
     <div class="type-desc">
@@ -608,25 +647,25 @@
     <div class="video-grid reaction-grid">
       <div class="video-card">
         <video src="videos/bdb96dd3203602d19864a301cb850013.mp4" playsinline preload="metadata"></video>
-        <div class="video-overlay" onclick="toggleVideo(this)">
+        <div class="video-overlay">
           <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
         </div>
       </div>
       <div class="video-card">
         <video src="videos/ceb31af64d37c3b274543decb44cd57e.mp4" playsinline preload="metadata"></video>
-        <div class="video-overlay" onclick="toggleVideo(this)">
+        <div class="video-overlay">
           <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
         </div>
       </div>
       <div class="video-card">
         <video src="videos/5340c6fe55613104d16b63774d4f35b4.mp4" playsinline preload="metadata"></video>
-        <div class="video-overlay" onclick="toggleVideo(this)">
+        <div class="video-overlay">
           <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
         </div>
       </div>
       <div class="video-card">
         <video src="videos/e0319ff3e54e1c7bf7c8f6a15331fec1.mp4" playsinline preload="metadata"></video>
-        <div class="video-overlay" onclick="toggleVideo(this)">
+        <div class="video-overlay">
           <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
         </div>
       </div>
@@ -648,31 +687,43 @@
   </div>
 
   <div class="pricing-grid">
+    <!-- 按条计费 -->
     <div class="pricing-card">
-      <div class="mode">按条计费</div>
-      <div class="price-big">$50</div>
-      <div class="price-unit">每条视频</div>
-      <div class="moq-line">
-        起订量 <span class="moq-badge">50 条</span>
+      <div class="pricing-inner">
+        <div class="pricing-left">
+          <div class="mode">按条计费</div>
+          <div class="price-big">$50</div>
+          <div class="price-unit">每条视频</div>
+          <div class="moq-line">起订量 <span class="moq-badge">50 条</span></div>
+        </div>
+        <div class="pricing-divider"></div>
+        <div class="pricing-right">
+          <ul class="pricing-features">
+            <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>预算可控，适合测试阶段</li>
+            <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>固定成本，ROI 易于计算</li>
+            <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>可混合三种内容类型</li>
+          </ul>
+        </div>
       </div>
-      <ul class="pricing-features">
-        <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>预算可控，适合测试阶段</li>
-        <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>固定成本，ROI 易于计算</li>
-        <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>可混合三种内容类型</li>
-      </ul>
     </div>
+    <!-- 按 CPM 计费 -->
     <div class="pricing-card">
-      <div class="mode">按 CPM 计费</div>
-      <div class="price-big">$7</div>
-      <div class="price-unit">每千次播放</div>
-      <div class="moq-line">
-        起订量 <span class="moq-badge">100 条</span>
+      <div class="pricing-inner">
+        <div class="pricing-left">
+          <div class="mode">按 CPM 计费</div>
+          <div class="price-big">$7</div>
+          <div class="price-unit">每千次播放</div>
+          <div class="moq-line">起订量 <span class="moq-badge">100 条</span></div>
+        </div>
+        <div class="pricing-divider"></div>
+        <div class="pricing-right">
+          <ul class="pricing-features">
+            <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>按实际曝光付费，风险更低</li>
+            <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>爆款视频成本摊薄效果显著</li>
+            <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>适合追求规模曝光的品牌</li>
+          </ul>
+        </div>
       </div>
-      <ul class="pricing-features">
-        <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>按实际曝光付费，风险更低</li>
-        <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>爆款视频成本摊薄效果显著</li>
-        <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>适合追求规模曝光的品牌</li>
-      </ul>
     </div>
   </div>
 </div>
@@ -699,6 +750,7 @@
     </div>
 
     <div class="roi-calc">
+      <!-- 假设参数 -->
       <div class="roi-assumption">
         <div class="assumption-item">
           <div class="a-label">产品售价</div>
@@ -721,11 +773,12 @@
           <div class="a-value">5,000</div>
         </div>
         <div class="assumption-item">
-          <div class="a-label">出单转化率</div>
-          <div class="a-value">1/1,500</div>
+          <div class="a-label">自然流转化率</div>
+          <div class="a-value">1/1,800</div>
         </div>
       </div>
 
+      <!-- 自然流计算链 -->
       <div class="roi-flow">
         <div class="flow-step">
           <div class="f-label">总播放量</div>
@@ -734,21 +787,22 @@
         </div>
         <div class="flow-step">
           <div class="f-label">预估出单</div>
-          <div class="f-value">~167 单</div>
-          <div class="f-note">250,000 ÷ 1,500</div>
+          <div class="f-value">~139 单</div>
+          <div class="f-note">250,000 ÷ 1,800</div>
         </div>
         <div class="flow-step">
           <div class="f-label">自然流 GMV</div>
-          <div class="f-value">$4,175</div>
-          <div class="f-note">167 × $25</div>
+          <div class="f-value">$3,472</div>
+          <div class="f-note">139 × $25</div>
         </div>
         <div class="flow-step highlight">
           <div class="f-label">自然流 ROI</div>
-          <div class="f-value">1.67×</div>
-          <div class="f-note">$4,175 ÷ $2,500</div>
+          <div class="f-value">1.39×</div>
+          <div class="f-note">$3,472 ÷ $2,500</div>
         </div>
       </div>
 
+      <!-- 结果卡片 -->
       <div class="roi-result">
         <div class="result-card organic">
           <div class="r-label">仅自然流</div>
@@ -762,11 +816,13 @@
         </div>
       </div>
 
+      <!-- FIX 3: 亚马逊溢出 = 自然流(250k) + 广告流(300k) 的 10% = 55,000 -->
       <div class="amazon-box">
         💡 <strong>额外溢出效应：</strong>自然流产生 250,000 次播放，叠加 $5,000 广告 spending 达成 3× GMV 目标（$7,500），广告曝光约 <strong>300,000 次</strong>，合计总曝光 <strong>550,000 次</strong>。其中 <strong>10% 溢出至亚马逊搜索</strong>，品牌可免费获得约 <strong>55,000 次亚马逊自然流量</strong>，进一步摊薄整体获客成本。
       </div>
     </div>
 
+    <!-- FIX 4: footnote 说明 * 对应上方广告卡片的 3× 目标 -->
     <div class="roi-footnote">
       * 3× ROI 目标基于优质脚本视频的行业均值，实际 ROI 因产品品类、视频质量、投放策略而有所差异。优秀脚本视频爆量后，单条视频播放量可远超 5,000 次，ROI 将显著提升。
     </div>
@@ -849,28 +905,32 @@
 </footer>
 
 <script>
-  function toggleVideo(overlay) {
-    const card = overlay.parentElement;
-    const video = card.querySelector('video');
-    document.querySelectorAll('video').forEach(v => {
-      if (v !== video) {
-        v.pause();
-        const ov = v.parentElement.querySelector('.video-overlay');
-        if (ov) ov.classList.remove('hidden');
+  // FIX 1: 点击事件绑定在 .video-card 上，video 和 overlay 均设 pointer-events:none
+  document.querySelectorAll('.video-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+      var video = this.querySelector('video');
+      var overlay = this.querySelector('.video-overlay');
+      // 暂停其他所有视频
+      document.querySelectorAll('video').forEach(function(v) {
+        if (v !== video) {
+          v.pause();
+          var ov = v.closest('.video-card').querySelector('.video-overlay');
+          if (ov) ov.classList.remove('hidden');
+        }
+      });
+      if (video.paused) {
+        video.play();
+        if (overlay) overlay.classList.add('hidden');
+      } else {
+        video.pause();
+        if (overlay) overlay.classList.remove('hidden');
       }
     });
-    if (video.paused) {
-      video.play();
-      overlay.classList.add('hidden');
-    } else {
-      video.pause();
-      overlay.classList.remove('hidden');
-    }
-  }
+  });
 
-  document.querySelectorAll('video').forEach(video => {
-    video.addEventListener('ended', () => {
-      const overlay = video.parentElement.querySelector('.video-overlay');
+  document.querySelectorAll('video').forEach(function(video) {
+    video.addEventListener('ended', function() {
+      var overlay = this.closest('.video-card').querySelector('.video-overlay');
       if (overlay) overlay.classList.remove('hidden');
     });
   });
