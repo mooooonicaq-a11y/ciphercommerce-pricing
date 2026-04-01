@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CipherCommerce — AIGC 内容服务</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <style>
+    :root {
+      --orange: #F97316;
+      --purple: #8B5CF6;
+      --pink: #EC4899;
+      --teal: #14B8A6;
+      --grad: linear-gradient(135deg, #F97316 0%, #EC4899 40%, #8B5CF6 100%);
+      --bg: #F8F9FB;
+      --card: #FFFFFF;
+      --border: #E5E7EB;
+      --text: #111827;
+      --muted: #6B7280;
+      --light: #F3F4F6;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+    }
+    .header img.logo { height: 56px; object-fit: contain; }
+    .header-right { text-align: right; }
+    .header-right .doc-title { font-size: 13px; color: var(--muted); font-weight: 500; letter-spacing: 0.03em; }
+    .header-right .doc-date { font-size: 12px; color: #9CA3AF; margin-top: 2px; }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--grad);
+      color: white;
+      text-align: center;
+      padding: 80px 24px 72px;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 100px;
+      padding: 6px 18px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+    .hero p {
+      font-size: clamp(15px, 2vw, 18px);
+      opacity: 0.88;
+      max-width: 620px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    .hero-stat { text-align: center; }
+    .hero-stat .num { font-size: 32px; font-weight: 800; line-height: 1; }
+    .hero-stat .label { font-size: 12px; opacity: 0.75; margin-top: 4px; letter-spacing: 0.04em; }
+
+    /* ── SECTION WRAPPER ── */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 72px 24px;
+    }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .section-num {
+      width: 36px; height: 36px;
+      background: var(--grad);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 700; font-size: 15px;
+      flex-shrink: 0;
+    }
+    .section-title { font-size: 22px; font-weight: 700; }
+    .section-sub { font-size: 14px; color: var(--muted); margin-top: 2px; }
+
+    /* ── CONTENT TYPES ── */
+    .content-types { display: flex; flex-direction: column; gap: 56px; }
+
+    .type-block {}
+    .type-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+    }
+    .type-label.scripted { background: #FFF7ED; color: #C2410C; border: 1px solid #FED7AA; }
+    .type-label.abstract { background: #F5F3FF; color: #6D28D9; border: 1px solid #DDD6FE; }
+    .type-label.reaction { background: #FDF2F8; color: #BE185D; border: 1px solid #FBCFE8; }
+
+    .type-desc {
+      font-size: 15px;
+      color: var(--muted);
+      margin-bottom: 20px;
+      max-width: 680px;
+      line-height: 1.7;
+    }
+    .type-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .tag {
+      background: var(--light);
+      color: var(--muted);
+      font-size: 12px;
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-weight: 500;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .video-card {
+      background: var(--card);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+    .video-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+    .video-card video {
+      width: 100%;
+      aspect-ratio: 9/16;
+      object-fit: cover;
+      display: block;
+      background: #000;
+      cursor: pointer;
+    }
+    .video-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.15);
+      transition: opacity 0.2s;
+      pointer-events: none;
+    }
+    .video-overlay.hidden { opacity: 0; }
+    .play-btn {
+      width: 52px; height: 52px;
+      background: rgba(255,255,255,0.92);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    }
+    .play-btn svg { width: 20px; height: 20px; fill: #111; margin-left: 3px; }
+
+    /* ── DIVIDER ── */
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ── PRICING ── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 640px) { .pricing-grid { grid-template-columns: 1fr; } }
+
+    .pricing-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .pricing-card.featured {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 1px var(--purple), 0 8px 32px rgba(139,92,246,0.12);
+    }
+    .pricing-card .badge {
+      position: absolute;
+      top: 20px; right: 20px;
+      background: var(--grad);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 100px;
+      letter-spacing: 0.04em;
+    }
+    .pricing-card .mode { font-size: 13px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+    .pricing-card .price-big { font-size: 42px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+    .pricing-card .price-unit { font-size: 14px; color: var(--muted); margin-bottom: 20px; }
+    .pricing-card .moq-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+    .moq-badge {
+      background: var(--light);
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .pricing-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .pricing-features li .check {
+      width: 18px; height: 18px;
+      background: #ECFDF5;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .pricing-features li .check svg { width: 10px; height: 10px; stroke: #059669; fill: none; stroke-width: 2.5; }
+
+    /* ── ROI SECTION ── */
+    .roi-wrapper {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+    }
+    .roi-intro {
+      padding: 36px 40px 28px;
+      border-bottom: 1px solid var(--border);
+    }
+    .roi-intro h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .roi-intro p { font-size: 14px; color: var(--muted); line-height: 1.75; }
+
+    .roi-calc {
+      padding: 32px 40px;
+    }
+    .roi-assumption {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .assumption-item {
+      background: var(--light);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .assumption-item .a-label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .assumption-item .a-value { font-size: 20px; font-weight: 800; }
+
+    .roi-flow {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .flow-step {
+      flex: 1;
+      min-width: 140px;
+      background: var(--light);
+      border-radius: 12px;
+      padding: 18px 16px;
+      text-align: center;
+      position: relative;
+    }
+    .flow-step + .flow-step::before {
+      content: '→';
+      position: absolute;
+      left: -14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      color: var(--muted);
+    }
+    .flow-step .f-label { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
+    .flow-step .f-value { font-size: 18px; font-weight: 800; line-height: 1.2; }
+    .flow-step .f-note { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .flow-step.highlight { background: linear-gradient(135deg, #FFF7ED, #FDF2F8); border: 1px solid #FED7AA; }
+    .flow-step.highlight .f-value { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+    .roi-result {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 600px) { .roi-result { grid-template-columns: 1fr; } }
+
+    .result-card {
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+    .result-card.organic {
+      background: var(--light);
+      border: 1px solid var(--border);
+    }
+    .result-card.with-ads {
+      background: var(--grad);
+      color: white;
+    }
+    .result-card .r-label { font-size: 12px; font-weight: 600; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .result-card .r-roi { font-size: 40px; font-weight: 900; line-height: 1; margin-bottom: 4px; }
+    .result-card .r-gmv { font-size: 14px; opacity: 0.8; }
+    .result-card.organic .r-roi { background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+    .roi-footnote {
+      padding: 20px 40px 28px;
+      font-size: 13px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      line-height: 1.7;
+    }
+
+    /* ── AD AMPLIFICATION ── */
+    .ad-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 640px) { .ad-grid { grid-template-columns: 1fr; } }
+
+    .ad-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .ad-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .ad-card.tiktok::before { background: linear-gradient(90deg, #F97316, #EC4899); }
+    .ad-card.indie::before { background: linear-gradient(90deg, #8B5CF6, #14B8A6); }
+
+    .ad-platform {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .ad-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .ad-icon.tiktok-icon { background: #FFF7ED; }
+    .ad-icon.indie-icon { background: #F5F3FF; }
+    .ad-platform-name { font-size: 17px; font-weight: 700; }
+    .ad-platform-sub { font-size: 12px; color: var(--muted); }
+
+    .ad-price-tag {
+      display: inline-block;
+      background: var(--light);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .ad-price-tag.free { background: #ECFDF5; color: #065F46; }
+    .ad-price-tag.paid { background: #F5F3FF; color: #5B21B6; }
+
+    .ad-points { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .ad-points li {
+      display: flex;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .ad-points li .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--orange);
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+    .ad-card.indie .dot { background: var(--purple); }
+
+    .ad-disclaimer {
+      background: var(--light);
+      border-radius: 14px;
+      padding: 20px 24px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.75;
+      border-left: 3px solid var(--border);
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: var(--grad);
+      color: white;
+      text-align: center;
+      padding: 72px 24px;
+    }
+    .cta-section h2 { font-size: clamp(22px, 4vw, 36px); font-weight: 800; margin-bottom: 12px; }
+    .cta-section p { font-size: 16px; opacity: 0.85; margin-bottom: 40px; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .cta-cards {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .cta-card {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 16px;
+      padding: 24px 32px;
+      backdrop-filter: blur(10px);
+      min-width: 200px;
+    }
+    .cta-card .cta-icon { font-size: 28px; margin-bottom: 8px; }
+    .cta-card .cta-type { font-size: 11px; opacity: 0.7; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .cta-card .cta-value { font-size: 17px; font-weight: 700; word-break: break-all; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: #9CA3AF;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .header { padding: 16px 20px; }
+      .section { padding: 48px 16px; }
+      .roi-intro, .roi-calc, .roi-footnote { padding-left: 20px; padding-right: 20px; }
+      .roi-flow { gap: 8px; }
+      .flow-step + .flow-step::before { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <a href="https://pricing.ciphercommerce.com"><img class="logo" src="logo.png" alt="CipherCommerce" /></a>
+  <div class="header-right">
+    <div class="doc-title">AIGC 内容服务</div>
+    <div class="doc-date">April 2026</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">AI-Generated Content</div>
+  <h1>无需真人达人<br>批量产出高转化短视频</h1>
+  <p>为亚马逊品牌定制 AIGC 内容矩阵，覆盖创意脚本、成分可视化、真人 Reaction 三大场景，7 天内交付，成本降低 70%+</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="num">50条</div>
+      <div class="label">最低起订量</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">$50</div>
+      <div class="label">每条起</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">3–4×</div>
+      <div class="label">优秀视频 ROI</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">7天</div>
+      <div class="label">交付周期</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 1: 三类内容 -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <div>
+      <div class="section-title">三类核心内容</div>
+      <div class="section-sub">AIGC 能实现任何内容，以下三类是转化效果最优的方向</div>
+    </div>
+  </div>
+
+  <div class="content-types">
+
+    <!-- TYPE 1: Scripted Creative -->
+    <div class="type-block">
+      <div class="type-label scripted">🎬 有脚本创意视频</div>
+      <div class="type-desc">
+        完整剧情脚本 + AI 演员 + 专业剪辑，弥补品牌没有导演和剪辑团队的短板。从 Hook 到 CTA 全程设计，每一帧都服务于转化目标。
+      </div>
+      <div class="type-tags">
+        <span class="tag">剧情 Hook</span>
+        <span class="tag">产品拟人动画</span>
+        <span class="tag">场景化种草</span>
+        <span class="tag">适合 supplement / lifestyle / food</span>
+      </div>
+      <div class="video-grid">
+        <div class="video-card">
+          <video src="videos/06d56d274dbddcfb45683e8d63243ee6.mp4" playsinline preload="metadata" poster=""></video>
+          <div class="video-overlay" onclick="toggleVideo(this)">
+            <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <video src="videos/dc1e456d1ee06f1acf0ffc239cfc1713.mp4" playsinline preload="metadata" poster=""></video>
+          <div class="video-overlay" onclick="toggleVideo(this)">
+            <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TYPE 2: Abstract & Concept -->
+    <div class="type-block">
+      <div class="type-label abstract">🧬 抽象原理 & 成分可视化</div>
+      <div class="type-desc">
+        用 AI 画面讲解产品背后的科学原理，将抽象成分、健康机制、功效逻辑转化为视觉冲击力强的内容，建立品牌专业感与信任度。
+      </div>
+      <div class="type-tags">
+        <span class="tag">成分可视化</span>
+        <span class="tag">健康原理讲解</span>
+        <span class="tag">抽象 Avatar</span>
+        <span class="tag">适合 skincare / health / nootropics</span>
+      </div>
+      <div class="video-grid">
+        <div class="video-card">
+          <video src="videos/c115205ece454fd7c80da23f061f50d9.mp4" playsinline preload="metadata" poster=""></video>
+          <div class="video-overlay" onclick="toggleVideo(this)">
+            <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <video src="videos/a4223efe6ec2eaa0aea7e6c504701583.mp4" playsinline preload="metadata" poster=""></video>
+          <div class="video-overlay" onclick="toggleVideo(this)">
+            <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TYPE 3: AI Reaction -->
+    <div class="type-block">
+      <div class="type-label reaction">🙋 真人 AI Reaction</div>
+      <div class="type-desc">
+        AI 生成真实使用场景，真人风格 Reaction，完全无需真实达人档期。批量生成不同人设、不同场景、不同 Hook，持续测试最优素材。
+      </div>
+      <div class="type-tags">
+        <span class="tag">UGC 风格</span>
+        <span class="tag">多人设批量生成</span>
+        <span class="tag">使用场景还原</span>
+        <span class="tag">适合全品类</span>
+      </div>
+      <div class="video-grid">
+        <div class="video-card">
+          <video src="videos/bdb96dd3203602d19864a301cb850013.mp4" playsinline preload="metadata" poster=""></video>
+          <div class="video-overlay" onclick="toggleVideo(this)">
+            <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <video src="videos/ceb31af64d37c3b274543decb44cd57e.mp4" playsinline preload="metadata" poster=""></video>
+          <div class="video-overlay" onclick="toggleVideo(this)">
+            <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <video src="videos/5340c6fe55613104d16b63774d4f35b4.mp4" playsinline preload="metadata" poster=""></video>
+          <div class="video-overlay" onclick="toggleVideo(this)">
+            <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+          </div>
+        </div>
+        <div class="video-card">
+          <video src="videos/e0319ff3e54e1c7bf7c8f6a15331fec1.mp4" playsinline preload="metadata" poster=""></video>
+          <div class="video-overlay" onclick="toggleVideo(this)">
+            <div class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="section-divider" />
+
+<!-- SECTION 2: 定价 -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <div>
+      <div class="section-title">两种计价方式</div>
+      <div class="section-sub">按内容目标灵活选择，测试阶段或规模投放均有对应方案</div>
+    </div>
+  </div>
+
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="mode">按条计费</div>
+      <div class="price-big">$50</div>
+      <div class="price-unit">每条视频</div>
+      <div class="moq-line">
+        起订量 <span class="moq-badge">50 条</span>
+      </div>
+      <ul class="pricing-features">
+        <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>预算可控，适合测试阶段</li>
+        <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>固定成本，ROI 易于计算</li>
+        <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>可混合三种内容类型</li>
+        <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>7 天内交付</li>
+      </ul>
+    </div>
+    <div class="pricing-card featured">
+      <div class="badge">规模投放推荐</div>
+      <div class="mode">按 CPM 计费</div>
+      <div class="price-big">$7</div>
+      <div class="price-unit">每千次播放</div>
+      <div class="moq-line">
+        起订量 <span class="moq-badge">100 条</span>
+      </div>
+      <ul class="pricing-features">
+        <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>按实际曝光付费，风险更低</li>
+        <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>爆款视频成本摊薄效果显著</li>
+        <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>适合追求规模曝光的品牌</li>
+        <li><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span>与广告投放组合效果最优</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider" />
+
+<!-- SECTION 3: ROI 计算 -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <div>
+      <div class="section-title">ROI 怎么算？</div>
+      <div class="section-sub">基于 TikTok 竞品自然流数据，一个真实的投入产出示例</div>
+    </div>
+  </div>
+
+  <div class="roi-wrapper">
+    <div class="roi-intro">
+      <h3>行业基准数据（TikTok 美区自然流）</h3>
+      <p>
+        根据对 TikTok 美区竞品自然流出单数据的观察：一个 $20–30 的产品，一条<strong>优秀脚本视频</strong>通常 <strong>1,000–2,000 次播放出一单</strong>。
+        优秀视频的自然流 ROI 约 <strong>3–4×</strong>，叠加广告投放后可进一步放大，整体广告账户 ROI 可以打正。
+      </p>
+    </div>
+
+    <div class="roi-calc">
+      <div class="roi-assumption">
+        <div class="assumption-item">
+          <div class="a-label">产品售价</div>
+          <div class="a-value">$25</div>
+        </div>
+        <div class="assumption-item">
+          <div class="a-label">内容投入</div>
+          <div class="a-value">50 条</div>
+        </div>
+        <div class="assumption-item">
+          <div class="a-label">计费方式</div>
+          <div class="a-value">$50/条</div>
+        </div>
+        <div class="assumption-item">
+          <div class="a-label">总内容成本</div>
+          <div class="a-value">$2,500</div>
+        </div>
+        <div class="assumption-item">
+          <div class="a-label">平均播放量/条</div>
+          <div class="a-value">5,000</div>
+        </div>
+        <div class="assumption-item">
+          <div class="a-label">出单转化率</div>
+          <div class="a-value">1/1,500</div>
+        </div>
+      </div>
+
+      <div class="roi-flow">
+        <div class="flow-step">
+          <div class="f-label">总播放量</div>
+          <div class="f-value">250,000</div>
+          <div class="f-note">50条 × 5,000次</div>
+        </div>
+        <div class="flow-step">
+          <div class="f-label">预估出单</div>
+          <div class="f-value">~167 单</div>
+          <div class="f-note">250,000 ÷ 1,500</div>
+        </div>
+        <div class="flow-step">
+          <div class="f-label">自然流 GMV</div>
+          <div class="f-value">$4,175</div>
+          <div class="f-note">167 × $25</div>
+        </div>
+        <div class="flow-step highlight">
+          <div class="f-label">自然流 ROI</div>
+          <div class="f-value">1.67×</div>
+          <div class="f-note">$4,175 ÷ $2,500</div>
+        </div>
+      </div>
+
+      <div class="roi-result">
+        <div class="result-card organic">
+          <div class="r-label">仅自然流</div>
+          <div class="r-roi">1.67×</div>
+          <div class="r-gmv">GMV ≈ $4,175</div>
+        </div>
+        <div class="result-card with-ads">
+          <div class="r-label">叠加广告投放</div>
+          <div class="r-roi">3–4×</div>
+          <div class="r-gmv">GMV ≈ $7,500–$10,000</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="roi-footnote">
+      * 以上数据基于 TikTok 美区竞品自然流观察，实际 ROI 因产品品类、视频质量、投放策略而有所差异。优秀脚本视频爆量后，单条视频播放量可远超 5,000 次，ROI 将显著提升。
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider" />
+
+<!-- SECTION 4: 广告增效 -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <div>
+      <div class="section-title">广告增效 Add-on</div>
+      <div class="section-sub">最大化每一条优质素材的长期价值，可选服务</div>
+    </div>
+  </div>
+
+  <div class="ad-grid">
+    <!-- TikTok Ads -->
+    <div class="ad-card tiktok">
+      <div class="ad-platform">
+        <div class="ad-icon tiktok-icon">🎵</div>
+        <div>
+          <div class="ad-platform-name">TikTok 广告投放</div>
+          <div class="ad-platform-sub">TikTok Ads · GMV Max</div>
+        </div>
+      </div>
+      <div class="ad-price-tag free">管理费：免费</div>
+      <ul class="ad-points">
+        <li><span class="dot"></span>不是简单跑 GMV Max——品牌自投 GMV Max 的 ROI 通常低于专业操盘</li>
+        <li><span class="dot"></span>核心在于 hack TikTok 广告更新后的算法黑箱：设置对比 Campaign 组，通过动态调整 Budget 与 ROI 目标，系统性推高整体广告 ROI</li>
+        <li><span class="dot"></span>优质 AIGC 素材 × 精准投放策略 = 广告账户 ROI 可打正</li>
+      </ul>
+    </div>
+
+    <!-- Independent Site Ads -->
+    <div class="ad-card indie">
+      <div class="ad-platform">
+        <div class="ad-icon indie-icon">🌐</div>
+        <div>
+          <div class="ad-platform-name">独立站广告投放</div>
+          <div class="ad-platform-sub">Meta Ads · Google Ads</div>
+        </div>
+      </div>
+      <div class="ad-price-tag paid">管理费：Ad Spend × 7–10%</div>
+      <ul class="ad-points">
+        <li><span class="dot"></span>将 AIGC 素材直接投放至独立站，沉淀用户数据与复购价值</li>
+        <li><span class="dot"></span>AI 真人 Reaction 素材天然契合 Meta / Google 算法偏好，点击率与转化率优于品牌自制素材</li>
+        <li><span class="dot"></span>选素材、建受众、跑测试、优化出价，全流程执行</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="ad-disclaimer">
+    💡 <strong>说明：</strong>广告投放为可选 Add-on 服务，素材本身已足够优秀，品牌自行投放完全可行。Add-on 的价值在于通过专业策略最大化每一条素材的长期效果，尤其适合希望快速放量或缺乏投放经验的品牌。
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>准备好开始了吗？</h2>
+  <p>欢迎联系我们，告诉我们您的产品和目标，我们来设计最适合的内容方案</p>
+  <div class="cta-cards">
+    <div class="cta-card">
+      <div class="cta-icon">💬</div>
+      <div class="cta-type">微信</div>
+      <div class="cta-value">Mooooonica_Q</div>
+    </div>
+    <div class="cta-card">
+      <div class="cta-icon">✉️</div>
+      <div class="cta-type">邮箱</div>
+      <div class="cta-value">MQ@ciphercommerce.com</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2026 CipherCommerce · AIGC 内容服务 · <a href="https://pricing.ciphercommerce.com" style="color:inherit;">查看完整报价</a>
+</footer>
+
+<script>
+  function toggleVideo(overlay) {
+    const card = overlay.parentElement;
+    const video = card.querySelector('video');
+    // Pause all other videos
+    document.querySelectorAll('video').forEach(v => {
+      if (v !== video) {
+        v.pause();
+        const ov = v.parentElement.querySelector('.video-overlay');
+        if (ov) ov.classList.remove('hidden');
+      }
+    });
+    if (video.paused) {
+      video.play();
+      overlay.classList.add('hidden');
+    } else {
+      video.pause();
+      overlay.classList.remove('hidden');
+    }
+  }
+
+  // Re-show overlay when video ends
+  document.querySelectorAll('video').forEach(video => {
+    video.addEventListener('ended', () => {
+      const overlay = video.parentElement.querySelector('.video-overlay');
+      if (overlay) overlay.classList.remove('hidden');
+    });
+  });
+</script>
+
+</body>
+</html>
